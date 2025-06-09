@@ -93,41 +93,41 @@ This library is designed to work with WebAssembly. The `console_log` external fu
 
 ```javascript
 // JavaScript side
-    const memory = new WebAssembly.Memory({
-      initial: 32,
-      maximum: 64,
-      shared: true,
-    });
+const memory = new WebAssembly.Memory({
+  initial: 32,
+  maximum: 64,
+  shared: true,
+});
 
-    const importObject = {
-      env: {
-        memory,
-        console_log: (arg: string) => {
-          console.log(arg);
-        },
-      },
-    };
+const importObject = {
+  env: {
+    memory,
+    console_log: (arg: string) => {
+      console.log(arg);
+    },
+  },
+};
 
-    WebAssembly.instantiateStreaming(
-      fetch("native_webaudio_rust.wasm"),
-      importObject
-    ).then((module) => {
-      const exports = module.instance.exports as unknown as WasmExports;
+WebAssembly.instantiateStreaming(
+  fetch("native_webaudio_rust.wasm"),
+  importObject
+).then((module) => {
+  const exports = module.instance.exports as unknown as WasmExports;
 
-      const { alloc_f32, alloc_i16, process_audio_simd } = exports;
+  const { alloc_f32, alloc_i16, process_audio_simd } = exports;
 
-      const input_ptr_1 = alloc_f32(SAMPLES_COUNT);
-      const input_ptr_2 = alloc_f32(SAMPLES_COUNT);
-      const output_ptr = alloc_i16(SAMPLES_COUNT);
+  const input_ptr_1 = alloc_f32(SAMPLES_COUNT);
+  const input_ptr_2 = alloc_f32(SAMPLES_COUNT);
+  const output_ptr = alloc_i16(SAMPLES_COUNT);
 
-      processAudio.current = process_audio_simd;
-      memoryRef.current = memory;
-      pointerRef.current = {
-        input_ptr_1,
-        input_ptr_2,
-        output_ptr,
-      };
-    });
+  processAudio.current = process_audio_simd;
+  memoryRef.current = memory;
+  pointerRef.current = {
+    input_ptr_1,
+    input_ptr_2,
+    output_ptr,
+  };
+});
 ```
 
 ## Testing
