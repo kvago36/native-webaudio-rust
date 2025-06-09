@@ -93,7 +93,7 @@ This library is designed to work with WebAssembly. The `console_log` external fu
 
 ```javascript
 // JavaScript side
- const memory = new WebAssembly.Memory({
+    const memory = new WebAssembly.Memory({
       initial: 32,
       maximum: 64,
       shared: true,
