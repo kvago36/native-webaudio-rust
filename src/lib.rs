@@ -57,14 +57,6 @@ pub extern "C" fn dealloc_f32(ptr: *mut f32, len: usize) {
 }
 
 #[unsafe(no_mangle)]
-pub extern "C" fn custom_alloc(len: usize) -> *mut u8 {
-    let mut buffer = Vec::with_capacity(len);
-    let ptr = buffer.as_mut_ptr();
-    std::mem::forget(buffer); // не даем Rust освободить память
-    ptr
-}
-
-#[unsafe(no_mangle)]
 pub extern "C" fn process_audio_simd(input_ptr: *const f32, output_ptr: *mut i16, byte_len: usize) {
     const LANES: usize = 4;
 
